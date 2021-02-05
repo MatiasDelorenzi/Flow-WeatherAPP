@@ -60,66 +60,48 @@ router.get('/forecast/:city?', (req, res) => {
         .then((response) => response.json())
         .then((data) => {
             const forecast = {
-                "day1": {
+                "day1":{
                     "day" : dateBuilder(1),
                     "temp" : Math.trunc(data.list[0].main.temp) + '°C',
                     "min_temp": Math.trunc(data.list[0].main.temp_min) + '°C',
                     "max_temp": Math.trunc(data.list[0].main.temp_max) + '°C',
                     "main": data.list[0].weather[0].main,
-                    "iconUrl": `${weatherAPI.iconUrlBase}${data.list[0].weather[0].icon}@2x.png`
+                    "iconUrl": `${weatherAPI.iconUrlBase}${data.list[0].weather[0].icon}@2x.png`  
                 },
-                "day2": {
-                    "day" : dateBuilder(2),
-                    "temp" : Math.trunc(data.list[1].main.temp) + '°C',
+                "day2":{
+                    "day" :dateBuilder(2),
+                    "temp": Math.trunc(data.list[1].main.temp) + '°C',
                     "min_temp": Math.trunc(data.list[1].main.temp_min) + '°C',
                     "max_temp": Math.trunc(data.list[1].main.temp_max) + '°C',
                     "main": data.list[1].weather[0].main,
-                    "iconUrl": `${weatherAPI.iconUrlBase}${data.list[1].weather[0].icon }@2x.png`
+                    "iconUrl": `${weatherAPI.iconUrlBase}${data.list[1].weather[0].icon}@2x.png`
+                },
+                "day3":{
+                    "day" :dateBuilder(3),
+                    "temp": Math.trunc(data.list[2].main.temp) + '°C',
+                    "min_temp": Math.trunc(data.list[2].main.temp_min) + '°C',
+                    "max_temp": Math.trunc(data.list[2].main.temp_max) + '°C',
+                    "main": data.list[2].weather[0].main,
+                    "iconUrl": `${weatherAPI.iconUrlBase}${data.list[2].weather[0].icon}@2x.png`
+                }, 
+                "day4":{
+                    "day" :dateBuilder(4),
+                    "temp": Math.trunc(data.list[3].main.temp) + '°C',
+                    "min_temp": Math.trunc(data.list[3].main.temp_min) + '°C',
+                    "max_temp": Math.trunc(data.list[3].main.temp_max) + '°C',
+                    "main": data.list[3].weather[0].main,
+                    "iconUrl": `${weatherAPI.iconUrlBase}${data.list[3].weather[0].icon}@2x.png`
+                },
+                "day5":{
+                    "day" :dateBuilder(5),
+                    "temp": Math.trunc(data.list[4].main.temp) + '°C',
+                    "min_temp": Math.trunc(data.list[4].main.temp_min) + '°C',
+                    "max_temp": Math.trunc(data.list[4].main.temp_max) + '°C',
+                    "main": data.list[4].weather[0].main,
+                    "iconUrl": `${weatherAPI.iconUrlBase}${data.list[4].weather[0].icon}@2x.png`
                 }
-                /*
-                "forecast" : [
-                    {
-                        "day" : dateBuilder(1),
-                        "temp" : Math.trunc(data.list[0].main.temp) + '°C',
-                        "min_temp": Math.trunc(data.list[0].main.temp_min) + '°C',
-                        "max_temp": Math.trunc(data.list[0].main.temp_max) + '°C',
-                        "main": data.list[0].weather[0].main,
-                        "iconUrl": `${weatherAPI.iconUrlBase}${data.list[0].weather[0].icon}@2x.png`
-                    },
-                    {
-                        "day" : dateBuilder(2),
-                        "temp" : Math.trunc(data.list[1].main.temp) + '°C',
-                        "min_temp": Math.trunc(data.list[1].main.temp_min) + '°C',
-                        "max_temp": Math.trunc(data.list[1].main.temp_max) + '°C',
-                        "main": data.list[1].weather[0].main,
-                        "iconUrl": `${weatherAPI.iconUrlBase}${data.list[1].weather[0].icon }@2x.png`
-                    },
-                    {
-                        "day" : dateBuilder(3),
-                        "temp" : Math.trunc(data.list[2].main.temp) + '°C',
-                        "min_temp": Math.trunc(data.list[2].main.temp_min) + '°C',
-                        "max_temp": Math.trunc(data.list[2].main.temp_max) + '°C',
-                        "main": data.list[2].weather[0].main,
-                        "iconUrl": `${weatherAPI.iconUrlBase}${data.list[2].weather[0].icon }@2x.png` 
-                    },                    
-                    {
-                        "day" : dateBuilder(4),
-                        "temp" : Math.trunc(data.list[3].main.temp) + '°C',
-                        "min_temp": Math.trunc(data.list[3].main.temp_min) + '°C',
-                        "max_temp": Math.trunc(data.list[3].main.temp_max) + '°C',
-                        "main": data.list[3].weather[0].main,
-                        "iconUrl": `${weatherAPI.iconUrlBase}${data.list[3].weather[0].icon }@2x.png`
-                    },                    
-                    {
-                        "day" : dateBuilder(5),
-                        "temp" : Math.trunc(data.list[4].main.temp) + '°C',
-                        "min_temp": Math.trunc(data.list[4].main.temp_min) + '°C',
-                        "max_temp": Math.trunc(data.list[4].main.temp_max) + '°C',
-                        "main": data.list[4].weather[0].main,
-                        "iconUrl": `${weatherAPI.iconUrlBase}${data.list[4].weather[0].icon }@2x.png`
-                    },
-                ] */
-            }
+
+            } 
             res.setHeader('Access-Control-Allow-Origin','*')
             res.json(forecast)
         })
