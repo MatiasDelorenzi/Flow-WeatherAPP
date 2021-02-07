@@ -32,26 +32,34 @@ class App extends Component {
       .catch((err) => console.log(err))
   } 
 
-  saveCity(event){
+  async saveCity(event){
     if(event.key === "Enter"){
-      //Check if location is valid!!!!!!!
-      if(this.state.citiesArray.length <=4){
-        this.state.citiesArray.push(this.state.search)
-      } else{
-        this.state.citiesArray = []
+        //CHECK IF VALID CITY
+        var error = false
+        await fetch(`http://localhost:4000/v1/current/${this.state.search}`)
+          .then((response) => response.json())
+          .catch((err) => {
+            error = true
+            console.log(err)
+          })
+        if(error){
+          console.log('City not found')
+        }else{
+          if(this.state.citiesArray.length <= 4){
+            this.state.citiesArray.push(this.state.search)
+          }else{
+            this.state.citiesArray = []
+            this.state.citiesArray.push(this.state.search)
+          }
+        }
+        console.log('citiesarray:' +this.state.citiesArray)
+        this.setState({search: ''})
       }
-      console.log(this.state.citiesArray)      
-      this.setState({search: ''})      
-      this.setState({forecastsCounter: this.state.forecastsCounter +1})
-    }
-    
   }
     
   
 
-  render(){
-      
-      
+  render(){   
       return (
         <div className="App">
            <main>
@@ -72,19 +80,16 @@ class App extends Component {
               
               <div className='search-result'>
                 {(this.state.citiesArray.length < 1) && <h3>NBothing to show</h3>}
-                {(this.state.citiesArray.length >= 1) && (
+                {(this.state.citiesArray.length > 0) && (
                   this.state.citiesArray.map(city => {
                     return (
                       <div className="sarch-card">
                         <Weather city = {city}/>
                       </div>
-                      
-                    )
+                    )                    
                   })
                 )}
               </div>
-              
-    
           </main>
         </div>
       );
