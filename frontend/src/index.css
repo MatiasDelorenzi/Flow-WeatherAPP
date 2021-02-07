@@ -12,12 +12,8 @@ body{
   background-image: url('./assets/cold.jpg');
   background-size: cover;
   background-position: bottom;
-  transition: 0.4 ease-out
 }
 
-.App.warm {
-  background-image: url('./assets/warm.jpg')
-}
 
 main{
   min-height: 100vh;
@@ -44,7 +40,7 @@ main{
   outline: none;
 
   background-color: rgba(255, 255, 255, 0.6);
-  border-radius: 16px 16px 16px 16px;
+  border-radius: 16px;
 
   box-shadow: 0px 5px rgba(0,0,0,0.2);
 
@@ -55,7 +51,23 @@ main{
 
 .search-box .search-bar:focus{
   background-color: rgba(255,255,255,0.9);
+}
 
+.search-box .clear-btn{
+  border-radius: 16px;
+  background-color: rgba(52, 55, 253, 0.9);
+  color: white;
+  font-size: 20px;
+  width: 100px;
+  margin-left: 10px;
+  box-shadow: 1px 1px 2px black;
+  text-shadow: 1px 1px 1px black;
+}
+
+.search-box .clear-btn:hover{
+  background-color: rgba(52,55,253,0.7);
+  color: rgba(255,255,255,0.6);
+  cursor: pointer;
 }
 
 .search-result .search-result-placeholder{

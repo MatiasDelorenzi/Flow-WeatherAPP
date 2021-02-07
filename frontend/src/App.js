@@ -15,6 +15,7 @@ class App extends Component {
     }
     this.handleChange = this.handleChange.bind(this)
     this.fetchWeatherFrom = this.saveCity.bind(this)   
+    this.clearHistory = this.clearHistory.bind(this)
   }
 
   handleChange(e){
@@ -22,7 +23,11 @@ class App extends Component {
       search: e.target.value
     })
   }
- 
+
+  clearHistory(){
+    this.state.citiesArray = []
+    this.setState({search: ''})
+  } 
 
   componentDidMount(){
      fetch('http://localhost:4000/v1/location')
@@ -41,24 +46,23 @@ class App extends Component {
           .then((response) => response.json())
           .catch((err) => {
             error = true
-            swal({
-              title: "Invalid city",
-              text: "We couldn't find this city, please try again",
-              icon:"error",
-              button:"Okay"
-            })
           })
         if(error){
-          console.log('City not found')
+          swal({
+            title: "Invalid city",
+            text: "We couldn't find this city, please try again",
+            icon:"error",
+            button:"Okay"
+          })
         }else{
           if(this.state.citiesArray.length <= 4){
             this.state.citiesArray.push(this.state.search)
           }else{
-            this.state.citiesArray = []
-            this.state.citiesArray.push(this.state.search)
+            const state = this.state.search
+            this.clearHistory()
+            this.state.citiesArray.push(state)
           }
-        }
-        console.log('citiesarray:' +this.state.citiesArray)
+        }        
         this.setState({search: ''})
       }
   }
@@ -82,6 +86,7 @@ class App extends Component {
                   placeholder="Search up to five more cities!"
                   autoFocus
                 />
+                <button className="clear-btn" onClick={this.clearHistory}>Clear</button>
                 
               </div>   
               
