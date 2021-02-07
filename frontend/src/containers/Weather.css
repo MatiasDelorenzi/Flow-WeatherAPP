@@ -9,25 +9,25 @@
     justify-content: center;
   }
   
-  .loading-container .loading-text{
-    margin-top: 100px;
-    color: rgba(255, 255, 255, 0.6);
-    text-shadow: 2px 2px 1px rgba(0,0,0,0.3);
-  }
+.loading-container .loading-text{
+  margin-top: 100px;
+  color: rgba(255, 255, 255, 0.6);
+  text-shadow: 2px 2px 1px rgba(0,0,0,0.3);
+}
 
-  .grid-title{
-    width:100%;
-    text-align: center;
-  }
+.grid-title{
+  width:100%;
+  text-align: center;
+}
 
-  .grid-title .grid-title-text{
-    font-size: 50px;
-    color: rgb(255, 255, 255);
-    text-shadow: 3px 3px 2px black;
-  }
+.grid-title .grid-title-text{
+  font-size: 50px;
+  color: rgb(255, 255, 255);
+  text-shadow: 3px 3px 2px black;
+}
 
-  .weather-container{
-      margin-top: 0px;
-      margin-bottom: 100px;
-  }
+.weather-container{
+    margin-top: 0px;
+    margin-bottom: 50px;
+}
 

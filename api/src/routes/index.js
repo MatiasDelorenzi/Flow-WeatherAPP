@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const fetch = require('node-fetch')
-require('./index')
 
 const weatherAPI = {
     base: "http://api.openweathermap.org/data/2.5/",
@@ -48,11 +47,10 @@ router.get('/current/:city?', (req, res) => {
             res.setHeader('Access-Control-Allow-Origin','*')
             res.json(weather)
         })
-        .catch((err) => {
-            if(err){
-                res.setHeader('Access-Control-Allow-Origin','*')
-                res.sendStatus(404)
-            }}
+        .catch((err) => {            
+            res.setHeader('Access-Control-Allow-Origin','*')
+            res.sendStatus(404)
+            }
         )
 })
 
@@ -111,7 +109,10 @@ router.get('/forecast/:city?', (req, res) => {
             res.setHeader('Access-Control-Allow-Origin','*')
             res.json(forecast)
         })
-        .catch((err) => console.log(err))
+        .catch((err) => {
+            res.setHeader('Access-Control-Allow-Origin','*')
+            res.sendStatus(404)
+        })
 })
 
 module.exports = router

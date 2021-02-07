@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './index.css';
 import Weather from './containers/Weather'
+import swal from 'sweetalert'
 
 class App extends Component {
 
@@ -40,7 +41,12 @@ class App extends Component {
           .then((response) => response.json())
           .catch((err) => {
             error = true
-            console.log(err)
+            swal({
+              title: "Invalid city",
+              text: "We couldn't find this city, please try again",
+              icon:"error",
+              button:"Okay"
+            })
           })
         if(error){
           console.log('City not found')
@@ -74,12 +80,13 @@ class App extends Component {
                   type="text"
                   className="search-bar"
                   placeholder="Search up to five more cities!"
+                  autoFocus
                 />
                 
               </div>   
               
               <div className='search-result'>
-                {(this.state.citiesArray.length < 1) && <h3>NBothing to show</h3>}
+                {(this.state.citiesArray.length < 1) && <h3 className="search-result-placeholder">Results will be displayed here</h3>}
                 {(this.state.citiesArray.length > 0) && (
                   this.state.citiesArray.map(city => {
                     return (
