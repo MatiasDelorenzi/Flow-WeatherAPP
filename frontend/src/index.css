@@ -9,9 +9,8 @@ body{
 }
 
 .App{
-  background-image: url('./assets/cold.jpg');
-  background-size: cover;
-  background-position: bottom;
+  background: rgb(57,154,175);
+  background: linear-gradient(90deg, rgba(57,154,175,1) 40%, rgba(32,123,142,1) 95%);
 }
 
 
