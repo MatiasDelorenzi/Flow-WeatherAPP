@@ -1,62 +1,59 @@
-import React from 'react'
+import React, { Component } from 'react'
 import Card from '../components/Card.js'
 import './Weather.css'
 
-function Weather({current, forecast}){ 
-    return(
-        <div className='grid'>
-            <Card
-                date = "Today"
-                weather = {current.weather}
-                imageUrl = {current.iconUrl}
-                temperature = {current.temp}
-                min_temp = {current.min_temp}
-                max_temp = {current.max_temp}
-            />
-            <Card
-                date = {forecast.day1.day}
-                weather = {forecast.day1.weather}
-                imageUrl = {forecast.day1.iconUrl}
-                temperature = {forecast.day1.temp}
-                min_temp = {forecast.day1.min_temp}
-                max_temp = {forecast.day1.max_temp}
-            />
-            <Card
-                date = {forecast.day2.day}
-                weather = {forecast.day2.weather}
-                imageUrl = {forecast.day2.iconUrl}
-                temperature = {forecast.day2.temp}
-                min_temp = {forecast.day2.min_temp}
-                max_temp = {forecast.day2.max_temp}
-            />
-            <Card
-                date = {forecast.day3.day}
-                weather = {forecast.day3.weather}
-                imageUrl = {forecast.day3.iconUrl}
-                temperature = {forecast.day3.temp}
-                min_temp = {forecast.day3.min_temp}
-                max_temp = {forecast.day3.max_temp}
-            />
-            <Card
-                date = {forecast.day4.day}
-                weather = {forecast.day4.weather}
-                imageUrl = {forecast.day4.iconUrl}
-                temperature = {forecast.day4.temp}
-                min_temp = {forecast.day4.min_temp}
-                max_temp = {forecast.day4.max_temp}
-            />
-            <Card
-                date = {forecast.day5.day}
-                weather = {forecast.day5.weather}
-                imageUrl = {forecast.day5.iconUrl}
-                temperature = {forecast.day5.temp}
-                min_temp = {forecast.day5.min_temp}
-                max_temp = {forecast.day5.max_temp}
-            />         
-           
-        </div>
+
+class Weather extends Component{
+    constructor(){
+        super()
+        this.state={
+            currentWeather: {},
+            forecast: {}
+        }
+    }
+
+    componentDidMount(){
+        fetch(`http://localhost:4000/v1/forecast/${this.props.city}`)
+            .then((response) => response.json())
+            .then((data) => {
+                this.setState({forecast: data})
+            })
+            .catch((err) => console.log(err))
         
-    )
+        fetch(`http://localhost:4000/v1/current/${this.props.city}`)
+            .then((response) => response.json())
+            .then((data) => {
+                this.setState({currentWeather: data})
+            })
+    }
+
+    render (){       
+        if(!this.state.forecast.day1){
+            return(
+                <div className="loading-container">
+                    <h1 className="loading-text">Loading...</h1>
+                </div>
+            )
+        }
+        return(
+            <div className="weather-container">
+                <div className="grid-title">
+                    <h1 className="grid-title-text">{this.state.forecast.location}</h1>
+                </div>  
+                <div className='grid'>
+                              
+                <Card weather={this.state.currentWeather}/>
+                <Card weather={this.state.forecast.day1}/>
+                <Card weather={this.state.forecast.day2}/>
+                <Card weather={this.state.forecast.day3}/>
+                <Card weather={this.state.forecast.day4}/>
+                <Card weather={this.state.forecast.day5}/>
+            </div>
+            </div>
+            
+            
+        )
+    }
 }
 
 export default Weather

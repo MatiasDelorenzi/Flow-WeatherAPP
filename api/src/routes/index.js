@@ -60,6 +60,7 @@ router.get('/forecast/:city?', (req, res) => {
         .then((response) => response.json())
         .then((data) => {
             const forecast = {
+                "location": data.city.name + ', ' + data.city.country,
                 "day1":{
                     "day" : dateBuilder(1),
                     "temp" : Math.trunc(data.list[0].main.temp) + '°C',

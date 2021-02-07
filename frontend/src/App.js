@@ -9,55 +9,17 @@ class App extends Component {
     this.state = {
       search: '',
       location: '',
-      currentWeather: {},
-      forecast: {}
+      country:'',
+      citiesArray: []
     }
-    this.printForecast = this.fetchWeather.bind(this)
     this.handleChange = this.handleChange.bind(this)
-    this.fetchCityWeather = this.fetchCityWeather.bind(this)
+    this.fetchWeatherFrom = this.saveCity.bind(this)   
   }
-
-  fetchWeather(){
-    if (!this.state.forecast.day1){
-      return (
-        <div className="loading-container">
-          <h1 className="loading-text">Fetching your city's weather...</h1>
-        </div>)
-    } else {
-      return (
-        <Weather current = {this.state.currentWeather} forecast={this.state.forecast}/>
-      )
-    }
-  }
-
-  fetchCityWeather(city){
-    let current
-    let forecast
-    console.log('fetchcityweather')
-    // fetch('http://localhost:4000/v1/current' + city)
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     fetch('http://localhost:4000/v1/current' + city)
-    //       .then((res) => res.json())
-    //       .then((result) => {
-    //         forecast = result
-    //       })
-    //       .catch((error) => console.log(error))
-    //     current = data})
-    //   .cartch((err) => console.log(err))
-    
-    
-    // return [current, forecast]
-    
-  }
-
 
   handleChange(e){
     this.setState({
       search: e.target.value
-      
     })
-    console.log(this.state.search)
   }
  
 
@@ -65,44 +27,61 @@ class App extends Component {
      fetch('http://localhost:4000/v1/location')
       .then((response) => response.json())
       .then((data) => {
-        const fullLocation = `${data.city}, ${data.country}`
-        this.setState({location: fullLocation})
+        this.setState({location: data.city, country: data.country})
      })
-    
-     fetch('http://localhost:4000/v1/forecast')
-      .then((response) =>  response.json())
-      .then((data) => {
-      this.setState({forecast : data})
-    })
-
-     fetch('http://localhost:4000/v1/current')
-     .then((response) => response.json())
-     .then((data) => {
-       this.setState({currentWeather: data})
-     })
+      .catch((err) => console.log(err))
   } 
 
-  render = () => {
+  saveCity(event){
+    if(event.key === "Enter"){
+      //Check if location is valid!!!!!!!
+      if(this.state.citiesArray.length <=4){
+        this.state.citiesArray.push(this.state.search)
+      } else{
+        this.state.citiesArray = []
+      }
+      console.log(this.state.citiesArray)      
+      this.setState({search: ''})      
+      this.setState({forecastsCounter: this.state.forecastsCounter +1})
+    }
+    
+  }
+    
+  
 
+  render(){
+      
+      
       return (
         <div className="App">
            <main>
-              <div className="title-box">
-                <h1 className="title">{this.state.location}</h1>
-              </div>  
-                {this.fetchWeather()}
+                
+                <Weather city={this.state.location}/>
+              
               <div className="search-box">
                 <input
+                  onKeyPress = {(e) => this.saveCity(e)}
                   value = {this.state.search}
                   onChange = {(e) => this.handleChange(e)}
                   type="text"
                   className="search-bar"
-                  placeholder="Search..."
+                  placeholder="Search up to five more cities!"
                 />
-              </div>
-              {console.log(this.fetchCityWeather("toronto"))}
+                
+              </div>   
+              
               <div className='search-result'>
-
+                {(this.state.citiesArray.length < 1) && <h3>NBothing to show</h3>}
+                {(this.state.citiesArray.length >= 1) && (
+                  this.state.citiesArray.map(city => {
+                    return (
+                      <div className="sarch-card">
+                        <Weather city = {city}/>
+                      </div>
+                      
+                    )
+                  })
+                )}
               </div>
               
     

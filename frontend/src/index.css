@@ -8,17 +8,6 @@ body{
   font-family: 'montserrat', sans-serif;
 }
 
-.title-box{
-  width:100%;
-  text-align: center;
-}
-
-.title-box .title{
-  font-size: 50px;
-  color: rgb(255, 255, 255);
-  text-shadow: 3px 3px 2px black;
-}
-
 .App{
   background-image: url('./assets/cold.jpg');
   background-size: cover;
@@ -36,22 +25,11 @@ main{
   padding:25px
 }
 
-.loading-container{
-  height: 220px;
-  display: flex;
-  justify-content: center;
-}
-
-.loading-container .loading-text{
-  margin-top: 100px;
-  color: rgba(255, 255, 255, 0.6);
-  text-shadow: 2px 2px 1px rgba(0,0,0,0.3);
-}
-
 .search-box{
   width: 100%;
   margin: 50px 0 75px;
-
+  display: flex;
+  justify-content: center;
 }
 
 .search-box .search-bar{
@@ -78,3 +56,8 @@ main{
   background-color: rgba(255,255,255,0.9);
 
 }
+
+.search-card{
+  
+}
+
