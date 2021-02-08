@@ -4,7 +4,6 @@ import Weather from './containers/Weather'
 import swal from 'sweetalert'
 
 class App extends Component {
-
   constructor(){
     super()
     this.state = {
@@ -17,7 +16,16 @@ class App extends Component {
     this.fetchWeatherFrom = this.saveCity.bind(this)   
     this.clearHistory = this.clearHistory.bind(this)
   }
-
+  
+  componentDidMount(){
+    fetch('http://localhost:4000/v1/location')
+     .then((response) => response.json())
+     .then((data) => {
+       this.setState({location: data.city, country: data.country})
+    })
+     .catch((err) => console.log(err))
+  } 
+  
   handleChange(e){
     this.setState({
       search: e.target.value
@@ -29,15 +37,6 @@ class App extends Component {
     this.setState({search: ''})
   } 
 
-  componentDidMount(){
-     fetch('http://localhost:4000/v1/location')
-      .then((response) => response.json())
-      .then((data) => {
-        this.setState({location: data.city, country: data.country})
-     })
-      .catch((err) => console.log(err))
-  } 
-
   async saveCity(event){
     if(event.key === "Enter"){
         //CHECK IF VALID CITY
@@ -46,6 +45,7 @@ class App extends Component {
           .then((response) => response.json())
           .catch((err) => {
             error = true
+            console.log(err)
           })
         if(error){
           swal({
@@ -66,8 +66,6 @@ class App extends Component {
         this.setState({search: ''})
       }
   }
-    
-  
 
   render(){   
       return (
@@ -108,7 +106,5 @@ class App extends Component {
     }
     
 }
-  
-
 
 export default App;
