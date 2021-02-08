@@ -19,7 +19,7 @@ function dateBuilder(advance){
 
 fetch(ipAPI)
     .then((response) => response.json())
-    .then((data) => location = {"city": data.city, "country": data.country_code})
+    .then((data) => location = {"city": data.city.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), "country": data.country_code})
     .catch((err) => console.log(err))
 
 router.get('/location', (req, res) => {
