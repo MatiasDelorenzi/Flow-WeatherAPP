@@ -4,7 +4,6 @@ const app = express()
 
 //SETTINGS
 app.set('port', process.env.PORT || 4000)
-app.set('json spaces', 2)
 
 //MIDDLEWARES
 app.use(morgan('dev'))

@@ -7,32 +7,33 @@ const weatherAPI = {
     iconUrlBase: "http://openweathermap.org/img/wn/"
 }
 const ipAPI = "http://api.ipapi.com/api/check?access_key=60fd1b5b43705a7d91c857f32a6d2c91"
-var location
+
 
 function dateBuilder(advance){
     const date = new Date()
     const daysArray = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
     const day = daysArray[(date.getDay() + advance)%7]
     return day    
-
 }
 
-fetch(ipAPI)
-    .then((response) => response.json())
-    .then((data) => location = {"city": data.city.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), "country": data.country_code})
-    .catch((err) => console.log(err))
-
-router.get('/location', (req, res) => {
+router.get('/location', async (req, res) => {
     res.setHeader('Access-Control-Allow-Origin','*')
+    await fetch(ipAPI)
+        .then((response) => response.json())
+        .then((data) => location = {"city": data.city.normalize("NFD").replace(/[\u0300-\u036f]/g, ""), "country": data.country_code})
+        .catch((err) => console.log(err))
     res.json(location)
 })
 
-router.get('/current/:city?', (req, res) => {
+router.get('/current/:city?', async (req, res) => {
     let { city } = req.params
     if (!city){
-        city = location.city
+        await fetch('http://localhost:4000/v1/location')
+            .then((res) => res.json())
+            .then((dat) => {city = dat.city})
+            .catch((error) => console.log(error))
     }
-    fetch(`${weatherAPI.base}weather?q=${city}&units=metric&appid=${weatherAPI.key}`)
+    await fetch(`${weatherAPI.base}weather?q=${city}&units=metric&appid=${weatherAPI.key}`)
         .then((response) => response.json())
         .then((data) => {
             const weather = {
@@ -54,12 +55,15 @@ router.get('/current/:city?', (req, res) => {
         )
 })
 
-router.get('/forecast/:city?', (req, res) => {
+router.get('/forecast/:city?', async (req, res) => {
     let { city } = req.params
     if (!city){
-        city = location.city
+        await fetch('http://localhost:4000/v1/location')
+            .then((res) => res.json())
+            .then((dat) => {city = dat.city})
+            .catch((error) => console.log(error))
     }
-    fetch(`${weatherAPI.base}forecast?q=${city}&cnt=5&units=metric&appid=${weatherAPI.key}`)
+    await fetch(`${weatherAPI.base}forecast?q=${city}&cnt=5&units=metric&appid=${weatherAPI.key}`)
         .then((response) => response.json())
         .then((data) => {
             const forecast = {
